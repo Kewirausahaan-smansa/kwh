@@ -119,7 +119,7 @@
                                 <label for="terms" class="text-gray-700">Saya Telah mengisi semua</label>
                             </div>
                             
-                            <p class="text-sm text-gray-500 mb-4 text-center">Setelah mendaftar, Anda akan diarahkan ke grup WhatsApp kami untuk informasi lebih lanjut</p>
+                            <p class="text-sm text-gray-500 mb-4 text-center">Setelah mendaftar, Anda akan diminta izin untuk mengirim data pendaftaran ke WhatsApp kami</p>
                             <button type="submit" class="w-full py-3 px-6 rounded-lg text-white font-medium btn-primary focus:outline-none animate-pulse">
                                 DAFTAR SEKARANG
                             </button>
@@ -170,9 +170,9 @@
                 var classGroup = document.getElementById('class').value;
                 var reason = document.getElementById('reason').value;
 
-                // Membuat pesan WhatsApp
-                var message = `Nama Lengkap: ${fullname}\nEmail: ${email}\nNomor Telepon: ${phone}\nKelas/Kelompok: ${classGroup}\nAlasan: ${reason}`;
-                var whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
+                // Membuat pesan WhatsApp dengan permisi yang sopan
+                var message = `Halo kak, perkenalkan saya ${fullname}\n\nBerikut data pendaftaran saya:\nEmail: ${email}\nNomor Telepon: ${phone}\nKelas/Kelompok: ${classGroup}\nAlasan bergabung: ${reason}\n\nTerima kasih`;
+                var whatsappUrl = `https://api.whatsapp.com/send?Phone = 6285168795783 & text=${encodeURIComponent(message)}`;
 
                 // Redirect ke WhatsApp
                 window.location.href = whatsappUrl;
