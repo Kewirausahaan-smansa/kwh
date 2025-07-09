@@ -164,6 +164,7 @@
                 e.preventDefault(); // Mencegah pengiriman formulir default
 
                 // Mengambil data dari formulir
+                var Pemisi kak = document.getElemetBYId('Permisi kak').value;
                 var fullname = document.getElementById('fullname').value;
                 var email = document.getElementById('email').value;
                 var phone = document.getElementById('phone').value;
@@ -171,7 +172,7 @@
                 var reason = document.getElementById('reason').value;
 
                 // Membuat pesan WhatsApp
-                var message = `Permisi Kak\nNama Lengkap: ${fullname}\nEmail: ${email}\nNomor Telepon: ${phone}\nKelas/Kelompok: ${classGroup}\nAlasan: ${reason}`;
+                var message = `Permisi Kak\nNama Lengkap: ${fullname}\nEmail: ${email}\nNomor Telepon: ${phone}\nKelas/Kelompok: ${classGroup}\nAlasan Masuk Kewirausahaan: ${reason}`;
                 var whatsappUrl = `https://api.whatsapp.com/send?phone= 6285168795783 &text=${encodeURIComponent(message)}`;
 
                 // Redirect ke WhatsApp
