@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     file_put_contents('data.json', $jsonData, FILE_APPEND);
 
     // Redirect ke grup WhatsApp
-    header("Location: https://chat.whatsapp.com/DJ8BIXKM3rKq5ZPq4m4PN");
+    header("Location: https://chat.whatsapp.com/DJU8BIXKM3rKq5ZPq4m4PN?mode=r_c");
     exit();
 }
 ?>
