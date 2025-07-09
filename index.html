@@ -157,6 +157,14 @@
         </main>
 
         <script>
+             document.getElementById('registrationForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                // Simulate form submission and redirect to WhatsApp group link
+                window.location.href = "https://chat.whatsapp.com/DJU8BIXKM3rKq5ZPq4m4PN?mode=r_c"; // Group WhatsApp setelah pendaftaran
+            });
+
+
+            
              document.getElementById('registrationForm').addEventListener('submit', function() {
                 // Form will naturally submit to submit.php which should then redirect
             });
