@@ -172,7 +172,7 @@
 
                 // Membuat pesan WhatsApp dengan permisi yang sopan
                 var message = `Halo kak, perkenalkan saya ${fullname}\n\nBerikut data pendaftaran saya:\nEmail: ${email}\nNomor Telepon: ${phone}\nKelas/Kelompok: ${classGroup}\nAlasan bergabung Kewirausahaan: ${reason}\n\nTerima kasih`;
-                var whatsappUrl = `https://api.whatsapp.com/send?phone6285168795783&text=${encodeURIComponent(message)}`;
+                var whatsappUrl = `https://api.whatsapp.com/send?phone=6285168795783&text=${encodeURIComponent(message)}`;
 
                 // Redirect ke WhatsApp
                 window.location.href = whatsappUrl;
