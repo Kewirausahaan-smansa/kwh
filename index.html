@@ -119,7 +119,7 @@
                                 <label for="terms" class="text-gray-700">Saya Telah mengisi semua</label>
                             </div>
                             
-                            <p class="text-sm text-gray-500 mb-4 text-center">Setelah mendaftar, Anda akan diminta izin untuk mengirim data pendaftaran ke WhatsApp kami</p>
+                            <p class="text-sm text-gray-500 mb-4 text-center">Setelah mendaftar, data Anda akan tersimpan dalam database kami</p>
                             <button type="submit" class="w-full py-3 px-6 rounded-lg text-white font-medium btn-primary focus:outline-none animate-pulse">
                                 DAFTAR SEKARANG
                             </button>
@@ -166,21 +166,37 @@
 
         <script>
             document.getElementById('registrationForm').addEventListener('submit', function(e) {
-                e.preventDefault(); // Mencegah pengiriman formulir default
+                e.preventDefault();
 
                 // Mengambil data dari formulir
-                var fullname = document.getElementById('fullname').value;
-                var email = document.getElementById('email').value;
-                var phone = document.getElementById('phone').value;
-                var classGroup = document.getElementById('class').value;
-                var reason = document.getElementById('reason').value;
+                const formData = {
+                    fullname: document.getElementById('fullname').value,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value,
+                    class: document.getElementById('class').value,
+                    reason: document.getElementById('reason').value
+                };
 
-                // Membuat pesan WhatsApp dengan permisi yang sopan
-                var message = `Halo kak, perkenalkan saya ${fullname}\n\nBerikut data pendaftaran saya:\nEmail: ${email}\nNomor Telepon: ${phone}\nKelas/Kelompok: ${classGroup}\nAlasan bergabung Kewirausahaan: ${reason}\n\nTerima kasih`;
-                var whatsappUrl = `https://api.whatsapp.com/send?phone=6285168795783&text=${encodeURIComponent(message)}`;
-
-                // Redirect ke WhatsApp
-                window.location.href = whatsappUrl;
+                // Kirim data ke Google Sheets API
+                fetch('https://script.google.com/macros/s/AKfycbwc6cGWEaZ2Uy8Sr3N6Rf1GQeamLWuhj0kcJkRFIyUbaQU4ouLE6IwbtUva3ZrHgcyu/exec', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Pendaftaran berhasil! Data Anda telah tersimpan.');
+                        document.getElementById('registrationForm').reset();
+                    } else {
+                        throw new Error('Gagal mengirim data');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan saat menyimpan data. Silakan coba lagi.');
+                });
             });
         </script>
     </div>
