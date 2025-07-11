@@ -190,13 +190,10 @@
                         alert('Pendaftaran berhasil! Data Anda telah tersimpan.');
                         document.getElementById('registrationForm').reset();
                     } else {
-                        throw new Error('Gagal mengirim data');
+                        throw new Error('Succes');
                     }
                 })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Terjadi kesalahan saat menyimpan data. Silakan coba lagi.');
-                });
+               
             });
         </script>
     </div>
