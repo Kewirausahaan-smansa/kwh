@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pendaftaran Kewirausahaan</title>
+    <title>Pendaftaran Program Kewirausahaan</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -115,11 +115,11 @@
                             </div>
                             
                             <div class="flex items-center">
-                                <input type="checkbox" id="terms" class="mr-2" required>
+                                <input type="checkbox" id="terms" name="terms" class="mr-2" required value="accepted">
                                 <label for="terms" class="text-gray-700">Saya Telah mengisi semua</label>
                             </div>
                             
-                            <p class="text-sm text-gray-500 mb-4 text-center">Setelah mendaftar, data Anda akan tersimpan dalam database kami</p>
+                            <p class="text-sm text-gray-500 mb-4 text-center">Setelah mendaftar, Anda akan diarahkan ke grup WhatsApp kami untuk informasi lebih lanjut</p>
                             <button type="submit" class="w-full py-3 px-6 rounded-lg text-white font-medium btn-primary focus:outline-none animate-pulse">
                                 DAFTAR SEKARANG
                             </button>
@@ -130,16 +130,12 @@
                 <!-- Organization Information -->
                 <div class="lg:w-1/2">
                     <div class="bg-white rounded-xl card p-8 mb-8">
-                        <h2 class="text-2xl font-bold text-gray-800 mb-6">Informasi</h2>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">Tentang Organisasi</h2>
                         <div class="flex items-center mb-4">
                             <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/f45e37a9-cda9-43df-ab65-44eb4afe95c3.png" alt="Logo Kewirausahaan" class="w-16 h-16 rounded-full mr-4">
                             <div>
                                 <h3 class="font-bold">Kewirausahaan</h3>
-                                <p class="text-gray-600"> - Kreativitas dan inovasi
-                                                          - Analisis pasar dan peluang bisnis
-                                                          - Manajemen dan kepemimpinan
-                                                          - Komunikasi dan presentasi
-                                                          - Keterampilan finansial dan akuntansi </p>
+                                <p class="text-gray-600">Organisasi yang berfokus pada pengembangan wirausaha muda.</p>
                             </div>
                         </div>
                         <div class="mb-4">
@@ -152,7 +148,7 @@
                             <h4 class="font-bold">Sosial Media</h4>
                             <div class="flex space-x-4">
                                 <a href="#" class="text-blue-500">
-                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbKGLK57PZbl7mgXF5WCx9-CXtRurfZLq4tQ&s" alt="Instagram" class="w-8 h-8">
+                                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/151b3b9f-58ac-41d9-acbf-9925f3dd1cad.png" alt="Instagram" class="w-8 h-8">
                                 </a>
                                 <a href="#" class="text-blue-500">
                                     <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/29aa833f-3509-44a4-8db6-c0a64a38f260.png" alt="TikTok" class="w-8 h-8">
@@ -166,36 +162,52 @@
 
         <script>
             document.getElementById('registrationForm').addEventListener('submit', function(e) {
-                e.preventDefault();
+                e.preventDefault(); // Mencegah pengiriman formulir default
 
-                // Mengambil data dari formulir
-                const formData = {
-                    fullname: document.getElementById('fullname').value,
-                    email: document.getElementById('email').value,
-                    phone: document.getElementById('phone').value,
-                    class: document.getElementById('class').value,
-                    reason: document.getElementById('reason').value
-                };
+                // Disable button during submission
+                const submitBtn = e.target.querySelector('button[type="submit"]');
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Mengirim...';
 
-                // Kirim data ke Google Sheets API
-                fetch('https://script.google.com/macros/s/AKfycbwc6cGWEaZ2Uy8Sr3N6Rf1GQeamLWuhj0kcJkRFIyUbaQU4ouLE6IwbtUva3ZrHgcyu/exec', {
+                // Validate and get form data
+                const form = e.target;
+                if (!form.checkValidity()) {
+                    alert('Harap lengkapi semua data yang diperlukan!');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'DAFTAR SEKARANG';
+                    return;
+                }
+
+                const formData = new FormData(form);
+                const data = {};
+                formData.forEach((value, key) => data[key] = value);
+
+                // Send data to server
+                fetch('https://script.google.com/macros/s/AKfycbyoaCIzkDmqnNB5x-KWlu0oMlBAXh9VbfL8RCJelbMvyvHtiaJw7I5vNyI_iU8UCxL7/exec', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
+                        'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(formData)
+                    body: JSON.stringify(data)
                 })
-                .then(response => {
-                    if (response.ok) {
-                        alert('Pendaftaran berhasil! Data Anda telah tersimpan.');
-                        document.getElementById('registrationForm').reset();
-                    } else {
-                        alert('Gagal mengirim data. Silakan coba lagi.');
+                .then(async response => {
+                    if (!response.ok) {
+                        const error = await response.json();
+                        throw new Error(error.message || 'Server error');
                     }
+                    return response;
+                })
+                .then(() => {
+                    // Redirect to WhatsApp group
+                    window.location.href = "https://chat.whatsapp.com/DJ8BIXKM3rKq5ZPq4m4PN"; // Ganti dengan link grup WhatsApp Anda
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('Terjadi kesalahan saat menyimpan data. Silakan coba lagi.');
+                    alert(`Gagal mengirim data: ${error.message || 'Silakan coba lagi nanti'}`);
+                })
+                .finally(() => {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'DAFTAR SEKARANG';
                 });
             });
         </script>
