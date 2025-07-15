@@ -189,9 +189,14 @@
                     if (response.ok) {
                         alert('Pendaftaran berhasil! Data Anda telah tersimpan.');
                         document.getElementById('registrationForm').reset();
+                    } else {
+                        alert('Gagal mengirim data. Silakan coba lagi.');
                     }
                 })
-               
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan saat menyimpan data. Silakan coba lagi.');
+                });
             });
         </script>
     </div>
